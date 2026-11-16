@@ -26,6 +26,6 @@ reward(t(_, I-_), R) :- length(I, N), R is 10 + 5 * N.
 % claim(+Board, +Tests, +Id, +NewVersion, -Result): accepted(Points, Board2) or refused(Why).
 claim(Board, Ts, Id, V, Res) :-
     (   \+ memberchk(open(Id, _, _), Board) -> Res = refused(not_open)
-    ;   memberchk(open(Id, T, P), Board), \+ passes(V, T) -> Res = refused(still_fails)
+    ;   memberchk(open(Id, T, _), Board), \+ passes(V, T) -> Res = refused(still_fails)
     ;   nth1(J, Ts, T2), \+ memberchk(open(J, _, _), Board), \+ passes(V, T2) -> Res = refused(breaks_test(J))
     ;   memberchk(open(Id, _, P), Board), selectchk(open(Id, _, _), Board, B2), Res = accepted(P, B2) ).

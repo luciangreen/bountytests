@@ -14,7 +14,7 @@ short(I) :- between(0, 2, N), length(I, N), maplist([X]>>between(1, 3, X), I).
 tests(Ts) :- short(A), msort(A, OA), ( Ts = [t(s, A-OA)] ; short(B), A @< B, msort(B, OB), Ts = [t(s, A-OA), t(s, B-OB)] ).
 
 % 1. A challenge is open exactly when its test fails.
-theorem(open_iff_failing) :- forall(( tests(Ts), version(V) ), ( challenges(Ts, V, Cs), forall(nth1(I, Ts, T), iff(memberchk(open(I, _, _), Cs), \+ run(V, _, _) ; \+ ( T = t(_, In-O), run(V, In, O) ))) )).
+theorem(open_iff_failing) :- forall(( tests(Ts), version(V) ), ( challenges(Ts, V, Cs), forall(nth1(I, Ts, t(_, In-O)), iff(memberchk(open(I, _, _), Cs), \+ run(V, In, O))) )).
 
 % 2. An accepted claim passes its test and every test that was already passing.
 theorem(accepted_claims_are_sound) :- forall(( tests(Ts), version(V), challenges(Ts, V, B), member(open(Id, _, _), B), version(W), claim(B, Ts, Id, W, accepted(_, _)) ),
